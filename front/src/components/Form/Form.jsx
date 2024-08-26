@@ -1,70 +1,77 @@
-// import PropTypes from "prop-types"
-
-import { useState } from "react"
-import { userLogin } from "../../services/userServices"
+import { useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { login, setUser } from "../../store/authSlice"
+import { userLogin, fetchUser } from "../../services/userServices"
 
 const Form = () => {
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const [rememberMe, setRememberMe] = useState(false)
-
+  const form = useRef()
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const [errorMessage, setErrorMessage] = useState("")
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     const userInfos = {
-      email: username,
-      password: password,
+      email: form.current[0].value,
+      password: form.current[1].value,
+      rememberMe: form.current[2].checked,
     }
     const payload = JSON.stringify(userInfos)
 
-    userLogin(payload)
-      .then((response) => {
-        console.log("Réponse serveur : ", response)
+    try {
+      const data = await userLogin(payload)
+      if (data.body.token) {
+        dispatch(login({ token: data.body.token }))
+
+        const userData = await fetchUser(data.body.token)
+        dispatch(
+          setUser({
+            id: userData.id,
+            email: userData.email,
+            userName: userData.userName,
+            firstName: userData.firstName,
+            lastName: userData.lastName,
+          })
+        )
+
+        if (userInfos.rememberMe) {
+          localStorage.setItem("token", data.body.token)
+          sessionStorage.removeItem("token")
+        } else {
+          sessionStorage.setItem("token", data.body.token)
+          localStorage.removeItem("token")
+        }
+
         navigate("/user")
-      })
-      .catch((error) => {
-        console.error("Error:", error)
-      })
+      } else {
+        console.error("Token not found in response:", data)
+      }
+    } catch (error) {
+      setErrorMessage("Invalid username or password. Please try again.")
+    }
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="input-wrapper">
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div>
-      <div className="input-wrapper">
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-      <div className="input-remember">
-        <input
-          type="checkbox"
-          id="remember-me"
-          checked={rememberMe}
-          onChange={(e) => setRememberMe(e.target.checked)}
-        />
-        <label htmlFor="remember-me">Remember me</label>
-      </div>
-      <button className="sign-in-button">Sign In</button>
-    </form>
+    <>
+      <form ref={form} onSubmit={handleSubmit}>
+        <div className="input-wrapper">
+          <label htmlFor="username">Username</label>
+          <input type="text" id="username" />
+        </div>
+        <div className="input-wrapper">
+          <label htmlFor="password">Password</label>
+          <input type="password" id="password" />
+        </div>
+        <div className="input-remember">
+          <input type="checkbox" id="remember-me" />
+          <label htmlFor="remember-me">Remember me</label>
+        </div>
+        <span className="error-login-message" style={{ color: "red", fontWeight: "bold" }}>{errorMessage}</span>
+        <button className="sign-in-button">Sign In</button>
+      </form>
+    </>
   )
 }
-
-// Form.propTypes = {
-//     handlesubmit: PropTypes.func.isRequired
-// }
 
 export default Form
