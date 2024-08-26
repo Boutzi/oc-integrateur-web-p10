@@ -6,10 +6,11 @@ import { changeUsername } from "../../services/userServices"
 const UserHeader = () => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.auth) || {}
-  const [newUsername, setnewUsername] = useState(user.userName || "")
+  const [newUsername, setnewUsername] = useState()
   const [isEditing, setIsEditing] = useState(false)
 
   const handleEditing = () => {
+    setnewUsername(user.userName)
     setIsEditing(true)
   }
 
@@ -18,20 +19,22 @@ const UserHeader = () => {
   }
 
   const handleSaveNewUsername = async () => {
+    if (newUsername.trim().length < 2) {
+      return
+    }
     try {
-      dispatch(setUser({ ...user, userName: newUsername }));
-      setIsEditing(false);
-      
+      dispatch(setUserName({ ...user, userName: newUsername }))
+      setIsEditing(false)
+
       const payload = {
         userName: newUsername,
-      };
-      
-      await changeUsername(payload, user.token);
+      }
+
+      await changeUsername(payload, user.token)
     } catch (error) {
-      console.error("Failed to change username:", error);
+      console.error("Failed to change username:", error)
     }
-  };
-  
+  }
 
   return (
     <div className="header">
@@ -39,14 +42,27 @@ const UserHeader = () => {
         Welcome back <br />
         {isEditing ? (
           <input
+            className="edit-username-input"
             type="text"
-            value={newUsername}
+            value={newUsername || user.userName}
             onChange={handleInputChange}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSaveNewUsername()
+              } 
+              if (e.key === "Escape") {
+                setIsEditing(false)
+              }
+              if (e.key === "ESC") {
+                setIsEditing(false)
+              }
+            }}
             autoFocus
           />
         ) : (
-          `${user.userName || "[Pseudo]"}`
+          `${user.userName || "[Pseudo]"} `
         )}
+        !
       </h1>
       {isEditing ? (
         <button

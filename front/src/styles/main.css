@@ -27,6 +27,13 @@ html {
     margin-top: 10px;
   }
 
+.edit-username-input {
+  padding: 5px;
+  margin-right: 5px;
+  font-size: 2rem;
+  min-width: 100px;
+}
+
   .sr-only {
     border: 0 !important;
     clip: rect(1px, 1px, 1px, 1px) !important; /* 1 */
@@ -269,6 +276,11 @@ html {
     padding: 10px;
   }
   
+  .edit-button--save {
+    border-color: #0093bc;
+    background-color: #0093bc;
+  }
+
   .header {
     color: #fff;
     margin-bottom: 2rem;
