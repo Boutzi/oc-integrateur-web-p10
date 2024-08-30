@@ -38,32 +38,29 @@ const UserHeader = () => {
 
   return (
     <div className="header">
-      <h1>
-        Welcome back <br />
-        {isEditing ? (
-          <input
-            className="edit-username-input"
-            type="text"
-            value={newUsername || user.userName}
-            onChange={handleInputChange}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                handleSaveNewUsername()
-              } 
-              if (e.key === "Escape") {
-                setIsEditing(false)
-              }
-              if (e.key === "ESC") {
-                setIsEditing(false)
-              }
-            }}
-            autoFocus
-          />
-        ) : (
-          `${user.userName || "[Pseudo]"} `
-        )}
-        !
-      </h1>
+      {isEditing ? (
+        <input
+          className="edit-username-input"
+          type="text"
+          value={newUsername !== undefined ? newUsername : user.userName}
+          onChange={handleInputChange}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSaveNewUsername()
+            }
+            if (e.key === "Escape" || e.key === "ESC") {
+              setIsEditing(false)
+            }
+          }}
+          autoFocus
+        />
+      ) : (
+        <h1>
+          Welcome back <br />
+          {`${user.userName || "[Pseudo]"} `} !
+        </h1>
+      )}
+
       {isEditing ? (
         <button
           className="edit-button edit-button--save"

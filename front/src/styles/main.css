@@ -28,10 +28,23 @@ html {
   }
 
 .edit-username-input {
-  padding: 5px;
-  margin-right: 5px;
-  font-size: 2rem;
-  min-width: 100px;
+  padding: 8px;
+  margin-right: 8px;
+  margin-block: 37.5px;
+  font-weight: 600;
+  font-size: 1.4rem;
+  width: 250px;
+  border-radius: 25px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.7);
+  border: none;
+  transition: all 200ms ease-in-out;
+}
+
+.edit-username-input:focus {
+  outline: #42b983 2px solid;
+  border: none;
+  background: rgba(255, 255, 255, 1);
 }
 
   .sr-only {
@@ -274,6 +287,7 @@ html {
     color: #fff;
     font-weight: bold;
     padding: 10px;
+    width: fit-content;
   }
   
   .edit-button--save {
@@ -284,6 +298,10 @@ html {
   .header {
     color: #fff;
     margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
   
   .transaction-button {
