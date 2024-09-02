@@ -39,34 +39,68 @@ const UserHeader = () => {
   return (
     <div className="header">
       {isEditing ? (
-        <input
-          className="edit-username-input"
-          type="text"
-          value={newUsername !== undefined ? newUsername : user.userName}
-          onChange={handleInputChange}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              handleSaveNewUsername()
-            }
-            if (e.key === "Escape" || e.key === "ESC") {
-              setIsEditing(false)
-            }
-          }}
-          autoFocus
-        />
+        <div className="edit-user-info">
+          <h2>Edit user info</h2>
+          <div>
+            <label htmlFor="username">User name:</label>
+            <input
+              id="username"
+              className="edit-user edit-username-input"
+              type="text"
+              value={newUsername !== undefined ? newUsername : user.userName}
+              onChange={handleInputChange}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSaveNewUsername()
+                }
+                if (e.key === "Escape" || e.key === "ESC") {
+                  setIsEditing(false)
+                }
+              }}
+              autoFocus
+            />
+          </div>
+          <div>
+            <label htmlFor="firstName">First name:</label>
+            <input
+              id="firstName"
+              className="edit-user --not-editable"
+              type="text"
+              value={user.firstName || "[First Name]"}
+              readOnly
+            />
+          </div>
+          <div>
+            <label htmlFor="lastName">Last name:</label>
+            <input
+              id="lastName"
+              className="edit-user --not-editable"
+              type="text"
+              value={user.lastName || "[Last Name]"}
+              readOnly
+            />
+          </div>
+        </div>
       ) : (
         <h1>
           Welcome back <br />
-          {`${user.userName || "[Pseudo]"} `} !
+          {`${user.userName || "[Username]"} `} !
         </h1>
       )}
 
       {isEditing ? (
-        <button
-          className="edit-button edit-button--save"
-          onClick={handleSaveNewUsername}>
-          Save Name
-        </button>
+        <div className="edit-buttons">
+          <button
+            className="edit-button-on"
+            onClick={handleSaveNewUsername}>
+            Save Name
+          </button>
+          <button
+            className="edit-button-on"
+            onClick={() => setIsEditing(false)}>
+            Cancel
+          </button>
+        </div>
       ) : (
         <button className="edit-button" onClick={handleEditing}>
           Edit Name

@@ -27,16 +27,22 @@ html {
     margin-top: 10px;
   }
 
-.edit-username-input {
-  padding: 8px;
-  margin-right: 8px;
-  margin-block: 37.5px;
-  font-weight: 600;
-  font-size: 1.4rem;
-  width: 250px;
-  border-radius: 25px;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.7);
+.edit-user-info {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  align-items: center;
+}
+
+.edit-user {
+  padding: 5px;
+  margin-left: 8px;
+  margin-block: 7.5px;
+  font-weight: 400;
+  font-size: 1.2rem;
+  min-width: 150px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 1);
   border: none;
   transition: all 200ms ease-in-out;
 }
@@ -45,6 +51,36 @@ html {
   outline: #42b983 2px solid;
   border: none;
   background: rgba(255, 255, 255, 1);
+}
+
+.--not-editable:focus {
+  outline: none;
+  border: none;
+}
+
+.--not-editable {
+  outline: none;
+  border: none;
+  color: #444;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.edit-buttons {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 400px;
+}
+  
+.edit-button-on {
+  border-color: #00bc77;
+  background-color: #00bc77;
+  color: #fff;
+  border-radius: 5px;
+  font-weight: bold;
+  padding: 13px;
+  width: 100%;
 }
 
   .sr-only {
@@ -287,7 +323,6 @@ html {
     color: #fff;
     font-weight: bold;
     padding: 10px;
-    width: fit-content;
   }
   
   .edit-button--save {
