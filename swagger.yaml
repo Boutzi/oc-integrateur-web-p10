@@ -45,7 +45,7 @@ paths:
               type: object
               properties:
                 transactionId:
-                  type: string
+                  type: number
                   description: Unique identifier of the transaction.
                 amount:
                   type: number
@@ -58,12 +58,6 @@ paths:
                 description:
                   type: string
                   description: Description of the transaction.
-                category:
-                  type: string
-                  description: Category of the transaction.
-                status:
-                  type: string
-                  description: Status of the transaction (e.g., completed, pending).
         '401':
           description: Unauthorized - Bearer token is missing or invalid.
         '403':
@@ -104,7 +98,7 @@ paths:
             type: object
             properties:
               transactionId:
-                type: string
+                type: number
                 description: Unique identifier of the transaction.
               amount:
                 type: number
@@ -117,12 +111,6 @@ paths:
               description:
                 type: string
                 description: Description of the transaction.
-              category:
-                type: string
-                description: Category of the transaction.
-              status:
-                type: string
-                description: Status of the transaction (e.g., completed, pending).
         '401':
           description: Unauthorized - Bearer token is missing or invalid.
         '403':
@@ -156,21 +144,8 @@ paths:
           description: Payload to update transaction details.
           required: true
           schema:
-            type: object
-            properties:
-              amount:
-                type: number
-                format: float
-                description: Updated amount of the transaction.
-              description:
-                type: string
-                description: Updated description of the transaction.
-              category:
-                type: string
-                description: Updated category of the transaction.
-              status:
-                type: string
-                description: Updated status of the transaction (e.g., completed, pending).
+            type: string
+            description: Updated description of the transaction.
 
       security:
         - bearerAuth: []
@@ -216,18 +191,6 @@ paths:
           required: true
           description: Bearer token to authorize the request.
           type: string
-        - name: body
-          in: body
-          description: Payload to specify the information to delete from the transaction.
-          required: true
-          schema:
-            type: object
-            properties:
-              fieldsToDelete:
-                type: array
-                items:
-                  type: string
-                description: List of fields to delete from the transaction (e.g., description, category).
 
       security:
         - bearerAuth: []
