@@ -144,8 +144,11 @@ paths:
           description: Payload to update transaction details.
           required: true
           schema:
-            type: string
-            description: Updated description of the transaction.
+            type: object
+            properties:
+              description:
+                type: string
+                description: Updated description of the transaction.
 
       security:
         - bearerAuth: []
