@@ -18,7 +18,7 @@ const Form = () => {
       rememberMe: form.current[2].checked,
     }
     const payload = JSON.stringify(userInfos)
-
+    
     try {
       const data = await userLogin(payload)
       if (data.body.token) {
