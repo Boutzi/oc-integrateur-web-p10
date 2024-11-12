@@ -18,7 +18,7 @@ const Form = () => {
       rememberMe: form.current[2].checked,
     }
     const payload = JSON.stringify(userInfos)
-    
+
     try {
       const data = await userLogin(payload)
       if (data.body.token) {
@@ -67,7 +67,11 @@ const Form = () => {
           <input type="checkbox" id="remember-me" />
           <label htmlFor="remember-me">Remember me</label>
         </div>
-        <span className="error-login-message" style={{ color: "red", fontWeight: "bold" }}>{errorMessage}</span>
+        <span
+          className="error-login-message"
+          style={{ color: "red", fontWeight: "bold" }}>
+          {errorMessage}
+        </span>
         <button className="sign-in-button">Sign In</button>
       </form>
     </>
